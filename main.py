@@ -1,83 +1,51 @@
-from auth import login
+import customtkinter as ctk
+from database import init_db, log_activity
+from ui.login import LoginFrame
+from ui.app import MainAppFrame
+from config import APP_NAME
 
-username = input("Username: ")
-password = input("Password: ")
+ctk.set_appearance_mode("System")
+ctk.set_default_color_theme("blue")
 
-user = login(username, password)
+class App(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+        self.title(APP_NAME)
+        self.geometry("1200x800")
+        self.minsize(1000, 700)
+        
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        
+        self.current_frame = None
+        self.center_window(1200, 800)
+        self.bind("<Control-q>", lambda e: self.destroy())
+        self.show_login()
 
-if not user:
-    print("Invalid Login")
-    exit()
+    def center_window(self, width, height):
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        x = (screen_width // 2) - (width // 2)
+        y = (screen_height // 2) - (height // 2)
+        self.geometry(f"{width}x{height}+{x}+{y}")
 
-role = user[0]
+    def show_login(self):
+        if self.current_frame:
+            self.current_frame.destroy()
+        self.current_frame = LoginFrame(self, self.show_main_app)
+        self.current_frame.grid(row=0, column=0, sticky="nsew")
 
-if role == "Admin":
-    print("""
-1. Add Product
-2. Delete Product
-3. Reports
-4. Sales
-""")
+    def show_main_app(self):
+        if self.current_frame:
+            self.current_frame.destroy()
+        from auth import Session
+        log_activity(Session.username, "Login", "User logged in successfully.")
+        self.current_frame = MainAppFrame(self, self.show_login)
+        self.current_frame.grid(row=0, column=0, sticky="nsew")
 
-elif role == "Manager":
-    print("""
-1. Add Product
-2. Reports
-3. Sales
-""")
-
-elif role == "Staff":
-    print("""
-1. Sales
-""")
-
-from products import add_product, view_products, search_product, delete_product
-
-add_product(
-    "Mouse",
-    "Electronics",
-    "Logitech",
-    500,
-    20
-)
-
-while True:
-
-    print("""
-1. Add Product
-2. View Products
-3. Search Product
-4. Delete Product
-5. Exit
-""")
-
-    choice = input("Enter Choice: ")
-
-    if choice == "1":
-        name = input("Name: ")
-        category = input("Category: ")
-        supplier = input("Supplier: ")
-        price = float(input("Price: "))
-        stock = int(input("Stock: "))
-
-        add_product(
-            name,
-            category,
-            supplier,
-            price,
-            stock
-        )
-
-    elif choice == "2":
-        view_products()
-
-    elif choice == "3":
-        search = input("Search Product: ")
-        search_product(search)
-
-    elif choice == "4":
-        pid = int(input("Product ID: "))
-        delete_product(pid)
-
-    elif choice == "5":
-        break
+if __name__ == "__main__":
+    print("Initializing Database...")
+    init_db()
+    print(f"Launching {APP_NAME} GUI...")
+    app = App()
+    app.mainloop()
