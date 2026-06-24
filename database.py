@@ -12,7 +12,7 @@ def get_connection():
     conn.execute("PRAGMA foreign_keys = ON")
     return conn
 
-def init_db():
+def init_db(): 
     conn = get_connection()
     cur = conn.cursor()
 
