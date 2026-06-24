@@ -8,7 +8,7 @@ def get_dashboard_metrics():
         cur = conn.cursor()
 
         cur.execute("SELECT COUNT(*), COALESCE(SUM(stock), 0), COALESCE(SUM(price * stock), 0) FROM products")
-        total_products, total_stock, total_value = cur.fetchone()
+        total_products, total_stock, total_value = cur.fetchone() 
 
         cur.execute("SELECT COUNT(*) FROM products WHERE stock <= reorder_level AND stock > 0")
         low_stock = cur.fetchone()[0]
