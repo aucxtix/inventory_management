@@ -42,7 +42,7 @@ class App(ctk.CTk):
             self.current_frame.destroy()
         self.current_frame = LoginFrame(self)
         self.current_frame.grid(row=0, column=0, sticky="nsew")
-
+ 
     def show_main_app(self):
         if self.current_frame:
             self.current_frame.destroy()
