@@ -1,6 +1,6 @@
 from database import get_connection, get_recent_activity
 from config import LOW_STOCK_THRESHOLD
-
+ 
 def get_dashboard_metrics():
     """Returns a dict of aggregate stats for the dashboard."""
     try:
