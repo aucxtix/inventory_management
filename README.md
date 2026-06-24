@@ -1,6 +1,6 @@
 # Inventory Management System (with POS & AI)
 
-A production-grade, globally deployable Inventory Management System built with Python 3 and CustomTkinter. The system now features a fully integrated Point-of-Sale (POS) shopping cart, ReportLab GST billing, and an AI Business Assistant powered by Google Gemini.
+A production-grade, globally deployable Inventory Management System built with Python 3 and CustomTkinter. The system now features a fully integrated Point-of-Sale (POS) shopping cart, ReportLab GST billing, and an AI Business Assistant powered by Google Gemini. 
 
 ## Features
 
