@@ -3,7 +3,7 @@ from datetime import datetime
 from config import CGST_RATE, SGST_RATE, COMPANY_NAME, COMPANY_PHONE, EXPORT_DIR
 from database import get_connection
 
-try:
+try: 
     from reportlab.lib.pagesizes import letter
     from reportlab.pdfgen import canvas
     REPORTLAB_AVAILABLE = True
